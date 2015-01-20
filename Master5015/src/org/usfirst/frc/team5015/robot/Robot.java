@@ -1,8 +1,8 @@
 
 package org.usfirst.frc.team5015.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-
+import edu.wpi.first.wpilibj.*;
+import org.usfirst.frc.team5015.*;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -11,6 +11,14 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	
+	Talon leftDrive = new Talon(0);
+	Talon rightDrive = new Talon(1);
+	RobotDrive DriveTrain = new RobotDrive(leftDrive, rightDrive);
+	Joystick DriveStick = new Joystick(1);
+	Double DrivePower;
+	DriveControl speedControl = new DriveControl();
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -26,10 +34,15 @@ public class Robot extends IterativeRobot {
 
     }
 
+    
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	
+    	speedControl.choosePower(DriveStick.getRawButton(1));
+    	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
+    	
         
     }
     
