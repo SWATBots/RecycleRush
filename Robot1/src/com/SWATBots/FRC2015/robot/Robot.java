@@ -1,8 +1,7 @@
 
 package com.SWATBots.FRC2015.robot;
-
 import edu.wpi.first.wpilibj.*;
-import org.usfirst.frc.team5015.*;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
