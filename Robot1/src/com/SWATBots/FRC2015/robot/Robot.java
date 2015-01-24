@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.*;
  * directory.
  */
 
-//This project is a Iterative robot project
 
 public class Robot extends IterativeRobot {
 	

@@ -1,7 +1,7 @@
 package com.SWATBots.FRC2015.robot;
 
 
-//This class is for drive control with speed limit buttons
+//This class is for drive speed control calculations with speed limit buttons
 
 public class DriveControl {
 
