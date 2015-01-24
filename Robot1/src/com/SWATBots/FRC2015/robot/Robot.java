@@ -16,7 +16,7 @@ public class Robot extends IterativeRobot {
 	Talon leftDrive = new Talon(0);
 	Talon rightDrive = new Talon(1);
 	RobotDrive DriveTrain = new RobotDrive(leftDrive, rightDrive);
-	Joystick DriveStick = new Joystick(1);
+	Joystick DriveStick = new Joystick(0);
 	Double DrivePower;
 	DriveControl speedControl = new DriveControl();
 	
