@@ -2,6 +2,7 @@
 package com.SWATBots.FRC2015.robot;
 import edu.wpi.first.wpilibj.*;
 
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -19,6 +20,9 @@ public class Robot extends IterativeRobot {
 	Joystick DriveStick = new Joystick(0);
 	Double DrivePower;
 	DriveControl speedControl = new DriveControl();
+	
+	Victor liftMotor = new Victor(2); 
+	LiftControl lift = new LiftControl();
 	
     /**
      * This function is run when the robot is first started up and should be
