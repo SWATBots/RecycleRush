@@ -1,5 +1,8 @@
 package com.SWATBots.FRC2015.robot;
 
+
+//This class is for drive control with speed limit buttons
+
 public class DriveControl {
 
 	private double Power = 0.0; 

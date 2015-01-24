@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.*;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
+
+//This project is a Iterative robot project
+
 public class Robot extends IterativeRobot {
 	
 	Talon leftDrive = new Talon(0);
