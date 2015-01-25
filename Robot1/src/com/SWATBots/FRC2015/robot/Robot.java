@@ -22,7 +22,11 @@ public class Robot extends IterativeRobot {
 	DriveControl speedControl = new DriveControl();
 	
 	Victor liftMotor = new Victor(2); 
-	LiftControl lift = new LiftControl();
+	LiftControl lift = new LiftControl(liftMotor);
+	int High = 3, Mid = 2, Low = 1;
+	
+	ClawControl Claw = new ClawControl();
+	
 	
     /**
      * This function is run when the robot is first started up and should be
