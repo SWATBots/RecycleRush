@@ -8,15 +8,12 @@ import edu.wpi.first.wpilibj.*;
 public class DriveControl {
 
 	public RobotDrive DriveTrain; // robot drive system
-	private Gyro driveCorrection;
-
 	double Kp = 0.03;
 
 	private double Power = 0.0; 
 	
 DriveControl (Gyro gyro)	
-{
- driveCorrection = gyro;	
+{	
 }
 	public double calculateSpeed(double Stick){
     	return Stick*Power;
