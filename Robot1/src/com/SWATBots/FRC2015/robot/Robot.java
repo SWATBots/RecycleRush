@@ -1,7 +1,6 @@
 
 package com.SWATBots.FRC2015.robot;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -30,7 +29,11 @@ DriveControl speedControl = new DriveControl(driveCorrection);
 	DigitalInput HoldingPositionSwitch = new DigitalInput(0);
 	DigitalInput ReleasePositionSwitch = new DigitalInput(1);
 	
-	LiftControl lift = new LiftControl(liftMotor, HoldingPositionSwitch, ReleasePositionSwitch);
+	DigitalInput MaxSwitch = new DigitalInput(2);
+	DigitalInput MinSwitch = new DigitalInput(3);
+	
+	LiftControl lift = new LiftControl(liftMotor, HoldingPositionSwitch, ReleasePositionSwitch, MaxSwitch, MinSwitch);
+	
 	int High = 3, Mid = 2, Low = 1;
 	
 	ClawControl Claw = new ClawControl();

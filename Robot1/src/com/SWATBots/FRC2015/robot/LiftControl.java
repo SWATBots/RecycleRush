@@ -7,15 +7,19 @@ import edu.wpi.first.wpilibj.*;
 public class LiftControl {
 
 	private int High = 3, Mid = 2, Low = 1;
-	DigitalInput top_Switch, bottom_Switch, holding_Switch, release_Switch;
+	DigitalInput top_Switch, bottom_Switch, holding_Switch, release_Switch, Top_Switch, Bottom_Switch;
 
 
 	Victor lift_motor;
 	
-	LiftControl (Victor Motor, DigitalInput holdingSwitch, DigitalInput releaseSwitch)
+	LiftControl (Victor Motor, DigitalInput holdingSwitch, DigitalInput releaseSwitch, DigitalInput TopSwitch, DigitalInput BottomSwitch)
 	{
 		holding_Switch = holdingSwitch;
 		release_Switch = releaseSwitch;
+		
+		Top_Switch = TopSwitch;
+		Bottom_Switch = BottomSwitch;
+		
 		lift_motor=Motor;
 	}
 	
@@ -35,6 +39,7 @@ public class LiftControl {
 	}
 	
 	
+	
 	public boolean getHoldingSwitch()
 	{
 		return holding_Switch.get();
@@ -43,6 +48,16 @@ public class LiftControl {
 	public boolean getReleaseSwitch()
 	{
 		return release_Switch.get();
+	}
+	
+	public boolean getTopSwitch()
+	{
+		return Top_Switch.get();
+	}
+	
+	public boolean getBottomSwitch()
+	{
+		return Bottom_Switch.get();
 	}
 	
 	
