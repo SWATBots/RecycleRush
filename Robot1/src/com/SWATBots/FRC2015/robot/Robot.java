@@ -32,6 +32,9 @@ DriveControl speedControl = new DriveControl(driveCorrection);
 	DigitalInput MaxSwitch = new DigitalInput(2);
 	DigitalInput MinSwitch = new DigitalInput(3);
 	
+	Encoder liftEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+
+	
 	LiftControl lift = new LiftControl(liftMotor, HoldingPositionSwitch, ReleasePositionSwitch, MaxSwitch, MinSwitch);
 	
 	int High = 3, Mid = 2, Low = 1;
@@ -46,7 +49,7 @@ DriveControl speedControl = new DriveControl(driveCorrection);
 	
 	
     public void robotInit() {
-
+    	liftEncoder.reset();
     }
 
     /**
