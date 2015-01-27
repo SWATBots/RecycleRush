@@ -12,6 +12,7 @@ public class DriveControl {
 
 	private double Power = 0.0; 
 	
+	
 DriveControl (Gyro gyro)	
 {	
 }
