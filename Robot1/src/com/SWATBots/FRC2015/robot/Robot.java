@@ -63,6 +63,7 @@ DriveControl speedControl = new DriveControl(driveCorrection);
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
     	
     	
+    	
     	if(LiftStick.getRawButton(4))
     	{
     		lift.LiftUp(0.50);
