@@ -1,6 +1,8 @@
 
 package com.SWATBots.FRC2015.robot;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 
 /**
@@ -21,8 +23,12 @@ public class Robot extends IterativeRobot {
 	Double DrivePower;
 	DriveControl speedControl = new DriveControl();
 	
+	Joystick LiftStick = new Joystick(1);
 	Victor liftMotor = new Victor(2); 
-	LiftControl lift = new LiftControl(liftMotor);
+	DigitalInput HoldingPositionSwitch = new DigitalInput(0);
+	DigitalInput ReleasePositionSwitch = new DigitalInput(1);
+	
+	LiftControl lift = new LiftControl(liftMotor, HoldingPositionSwitch, ReleasePositionSwitch);
 	int High = 3, Mid = 2, Low = 1;
 	
 	ClawControl Claw = new ClawControl();
@@ -53,6 +59,19 @@ public class Robot extends IterativeRobot {
     	
     	speedControl.choosePower(DriveStick.getRawButton(1));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
+    	
+    	
+    	if(LiftStick.getRawButton(4))
+    	{
+    		lift.LiftUp(0.50);
+    	}
+    	else if(LiftStick.getRawButton(1))
+    	{
+    		lift.LiftDown(0.50);
+    	}
+    	else{
+    		lift.LiftStop();
+    	}
     	
         
     }
