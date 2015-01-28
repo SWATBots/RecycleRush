@@ -42,22 +42,22 @@ public class LiftControl {
 	
 	public boolean getHoldingSwitch()
 	{
-		return holding_Switch.get();
+		return !(holding_Switch.get());
 	}
 	
 	public boolean getReleaseSwitch()
 	{
-		return release_Switch.get();
+		return !(release_Switch.get());
 	}
 	
 	public boolean getTopSwitch()
 	{
-		return Top_Switch.get();
+		return !(Top_Switch.get());
 	}
 	
 	public boolean getBottomSwitch()
 	{
-		return Bottom_Switch.get();
+		return !(Bottom_Switch.get());
 	}
 	
 	

@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 	Double DrivePower;
 	
 	Gyro driveCorrection = new Gyro(0);
-DriveControl speedControl = new DriveControl(driveCorrection);
+	DriveControl speedControl = new DriveControl(driveCorrection);
 	
 	Joystick LiftStick = new Joystick(1);
 	Victor liftMotor = new Victor(2); 
@@ -41,7 +41,7 @@ DriveControl speedControl = new DriveControl(driveCorrection);
 	
 	ClawControl Claw = new ClawControl();
 	
-	
+	Compressor pneumaticCompressor = new Compressor(0);
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
