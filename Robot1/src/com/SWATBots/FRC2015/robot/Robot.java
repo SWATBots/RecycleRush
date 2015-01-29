@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 	int High = 3, Mid = 2, Low = 1;
 	
 	ClawControl Claw = new ClawControl();
-	
+
 	Compressor pneumaticCompressor = new Compressor(0);
     /**
      * This function is run when the robot is first started up and should be

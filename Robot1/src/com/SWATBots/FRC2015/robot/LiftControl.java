@@ -1,6 +1,7 @@
 package com.SWATBots.FRC2015.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // A class for controlling the lift mechanism
 
@@ -17,7 +18,8 @@ public class LiftControl implements Runnable {
 	{
 		while (true)
 		{
-			System.out.println(this.findZone());
+			SmartDashboard.putNumber("Zone", this.findZone());
+			SmartDashboard.putNumber("Test", 3.14);
 		}
 	}
 	
