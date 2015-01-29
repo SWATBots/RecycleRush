@@ -8,13 +8,17 @@ public class LiftControl implements Runnable {
 
 	private int High = 3, Mid = 2, Low = 1;
 	private DigitalInput Holding_Switch, Release_Switch, Top_Switch, Bottom_Switch;
-	private byte lift_Direction = 0;
+	private byte lift_Direction = 0, lastSwitch;
 	private Thread liftThread;
 
 	private Victor lift_motor;
 
 	public void run()
 	{
+		while (true)
+		{
+			System.out.println(this.findZone());
+		}
 	}
 	
 	LiftControl (Victor Motor, DigitalInput holdingSwitch, DigitalInput releaseSwitch, DigitalInput TopSwitch, DigitalInput BottomSwitch)
@@ -51,7 +55,7 @@ public class LiftControl implements Runnable {
 	{
 		if(!(this.getBottomSwitch()))
 		{
-		lift_motor.set(-power);
+		lift_motor.set(-(power));
 		lift_Direction = -1;
 		}
 		else{
@@ -90,7 +94,58 @@ public class LiftControl implements Runnable {
 		return !(Bottom_Switch.get());
 	}
 	
+	public byte getSwitches()
+	{
+		byte sensor = 0;
+		
+		if(getBottomSwitch())
+		{
+			sensor = 1;
+		}
+		else{
+			if(getReleaseSwitch())
+			{
+				sensor = 2;
+			}
+			else{
+				if(getHoldingSwitch())
+				{
+					sensor = 3;
+				}
+				else{
+					if(getTopSwitch())
+					{
+						sensor = 4;
+					}
+					else{
+						sensor = 0;
+					}
+				}
+			}
+		}
+		
+		return sensor;
+	}
 	
+	
+	
+	public byte findZone()
+	{
+		byte zone = -1;
+		byte Switch = getSwitches();
+		
+		if(Switch != 0)
+		{
+			lastSwitch = Switch;
+			zone = (byte) ((Switch - 1)*2);
+		}
+		else{
+			zone = (byte) ((lastSwitch - 1)*2);
+			zone += this.getDirection();
+		}
+		
+		return zone;
+	}
 	
 	public void setPosition(int Position)
 	{
