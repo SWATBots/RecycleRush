@@ -18,8 +18,7 @@ public class LiftControl implements Runnable {
 	{
 		while (true)
 		{
-			SmartDashboard.putNumber("Zone", this.findZone());
-			SmartDashboard.putNumber("Test", 3.14);
+			SmartDashboard.putNumber("Switch", this.getSwitches());
 		}
 	}
 	
@@ -45,7 +44,7 @@ public class LiftControl implements Runnable {
 	{
 		if(!(this.getTopSwitch()))
 		{
-		lift_motor.set(power);
+		lift_motor.set(-power);
 		lift_Direction = 1;
 		}
 		else{
@@ -57,7 +56,7 @@ public class LiftControl implements Runnable {
 	{
 		if(!(this.getBottomSwitch()))
 		{
-		lift_motor.set(-(power));
+		lift_motor.set(power);
 		lift_Direction = -1;
 		}
 		else{
@@ -95,6 +94,21 @@ public class LiftControl implements Runnable {
 	{
 		return !(Bottom_Switch.get());
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public byte getSwitches()
 	{

@@ -2,8 +2,6 @@
 package com.SWATBots.FRC2015.robot;
 import edu.wpi.first.wpilibj.*;
 
-
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -26,11 +24,11 @@ public class Robot extends IterativeRobot {
 	
 	Joystick LiftStick = new Joystick(1);
 	Victor liftMotor = new Victor(2); 
-	DigitalInput HoldingPositionSwitch = new DigitalInput(0);
+	DigitalInput HoldingPositionSwitch = new DigitalInput(2);
 	DigitalInput ReleasePositionSwitch = new DigitalInput(1);
 	
-	DigitalInput MaxSwitch = new DigitalInput(2);
-	DigitalInput MinSwitch = new DigitalInput(3);
+	DigitalInput MaxSwitch = new DigitalInput(3);
+	DigitalInput MinSwitch = new DigitalInput(0);
 	
 	Encoder liftEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
 
@@ -67,9 +65,7 @@ public class Robot extends IterativeRobot {
     	
     	speedControl.choosePower(DriveStick.getRawButton(1));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
-    	
-    	
-    	
+
     	if(LiftStick.getRawButton(4))
     	{
     		lift.LiftUp(0.50);
