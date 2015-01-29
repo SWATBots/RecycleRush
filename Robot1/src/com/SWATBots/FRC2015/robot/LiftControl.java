@@ -4,14 +4,18 @@ import edu.wpi.first.wpilibj.*;
 
 // A class for controlling the lift mechanism
 
-public class LiftControl {
+public class LiftControl implements Runnable {
 
 	private int High = 3, Mid = 2, Low = 1;
 	private DigitalInput Holding_Switch, Release_Switch, Top_Switch, Bottom_Switch;
 	private byte lift_Direction = 0;
+	private Thread liftThread;
 
 	private Victor lift_motor;
 
+	public void run()
+	{
+	}
 	
 	LiftControl (Victor Motor, DigitalInput holdingSwitch, DigitalInput releaseSwitch, DigitalInput TopSwitch, DigitalInput BottomSwitch)
 	{
@@ -22,18 +26,37 @@ public class LiftControl {
 		Bottom_Switch = BottomSwitch;
 		
 		lift_motor=Motor;
+		
+		if(liftThread == null)
+		{
+			liftThread = new Thread(this);
+			liftThread.start();
+		}
+		
 	}
 	
 	public void LiftUp(double power)
 	{
+		if(!(this.getTopSwitch()))
+		{
 		lift_motor.set(power);
 		lift_Direction = 1;
+		}
+		else{
+			this.LiftStop();
+		}
 	}
 	
 	public void LiftDown(double power)
 	{
+		if(!(this.getBottomSwitch()))
+		{
 		lift_motor.set(-power);
 		lift_Direction = -1;
+		}
+		else{
+			this.LiftStop();
+		}
 	}
 	
 	public void LiftStop()
