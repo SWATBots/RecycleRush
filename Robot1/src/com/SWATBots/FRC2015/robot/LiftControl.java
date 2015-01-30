@@ -44,7 +44,7 @@ public class LiftControl implements Runnable {
 	{
 		if(!(this.getTopSwitch()))
 		{
-		lift_motor.set(-power);
+		lift_motor.set(power);
 		lift_Direction = 1;
 		}
 		else{
@@ -56,7 +56,7 @@ public class LiftControl implements Runnable {
 	{
 		if(!(this.getBottomSwitch()))
 		{
-		lift_motor.set(power);
+		lift_motor.set(-power);
 		lift_Direction = -1;
 		}
 		else{
