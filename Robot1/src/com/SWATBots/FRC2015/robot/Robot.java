@@ -1,6 +1,7 @@
 
 package com.SWATBots.FRC2015.robot;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -39,9 +40,13 @@ public class Robot extends IterativeRobot {
 	
 	int High = 3, Mid = 2, Low = 1;
 	
-	ClawControl Claw = new ClawControl();
+	DoubleSolenoid SolenoidLeft = new DoubleSolenoid(0,1);
+	DoubleSolenoid SolenoidRight = new DoubleSolenoid(2,3);
+	DoubleSolenoid SolenoidBrake = new DoubleSolenoid(4,5);
 	
-	Compressor pneumaticCompressor = new Compressor(0);
+	ClawControl Claw = new ClawControl();
+		
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -64,6 +69,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	SmartDashboard.putNumber("Gyro Value", driveCorrection.getAngle());
     	
     	speedControl.choosePower(DriveStick.getRawButton(1));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
