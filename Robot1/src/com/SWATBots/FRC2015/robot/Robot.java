@@ -3,8 +3,6 @@ package com.SWATBots.FRC2015.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -27,26 +25,27 @@ public class Robot extends IterativeRobot {
 	
 	Joystick LiftStick = new Joystick(1);
 	Victor liftMotor = new Victor(2); 
-	DigitalInput HoldingPositionSwitch = new DigitalInput(0);
+	DigitalInput HoldingPositionSwitch = new DigitalInput(2);
 	DigitalInput ReleasePositionSwitch = new DigitalInput(1);
 	
-	DigitalInput MaxSwitch = new DigitalInput(2);
-	DigitalInput MinSwitch = new DigitalInput(3);
+	DigitalInput MaxSwitch = new DigitalInput(3);
+	DigitalInput MinSwitch = new DigitalInput(0);
 	
-	Encoder liftEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+	Encoder liftEncoder = new Encoder(8, 9, false, Encoder.EncodingType.k4X);
 
 	
 	LiftControl lift = new LiftControl(liftMotor, HoldingPositionSwitch, ReleasePositionSwitch, MaxSwitch, MinSwitch);
 	
 	int High = 3, Mid = 2, Low = 1;
 	
+
 	DoubleSolenoid SolenoidLeft = new DoubleSolenoid(0,1);
 	DoubleSolenoid SolenoidRight = new DoubleSolenoid(2,3);
 	DoubleSolenoid SolenoidBrake = new DoubleSolenoid(4,5);
 	
 	ClawControl Claw = new ClawControl();
-		
-	
+
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -73,9 +72,7 @@ public class Robot extends IterativeRobot {
     	
     	speedControl.choosePower(DriveStick.getRawButton(1));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
-    	
-    	
-    	
+
     	if(LiftStick.getRawButton(4))
     	{
     		lift.LiftUp(0.50);
