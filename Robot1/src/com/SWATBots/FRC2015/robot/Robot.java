@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	DoubleSolenoid SolenoidRight = new DoubleSolenoid(2,3);
 	DoubleSolenoid SolenoidBrake = new DoubleSolenoid(4,5);
 	
-	ClawControl Claw = new ClawControl();
+	ClawControl Claw = new ClawControl(SolenoidLeft, SolenoidRight);
 
 
     /**
