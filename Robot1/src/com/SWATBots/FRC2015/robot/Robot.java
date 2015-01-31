@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput MaxSwitch = new DigitalInput(3);
 	DigitalInput MinSwitch = new DigitalInput(0);
 	
-	Encoder liftEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+	Encoder liftEncoder = new Encoder(8, 9, false, Encoder.EncodingType.k4X);
 
 	
 	LiftControl lift = new LiftControl(liftMotor, HoldingPositionSwitch, ReleasePositionSwitch, MaxSwitch, MinSwitch);
