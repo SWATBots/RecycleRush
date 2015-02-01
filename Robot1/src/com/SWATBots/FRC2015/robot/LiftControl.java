@@ -95,7 +95,31 @@ public class LiftControl implements Runnable {
 		return !(Bottom_Switch.get());
 	}
 	
+	public void liftUporDown(double power)
+	{
+		if(power > 0)
+		{
+			this.LiftUp(power);
+		}
+		else if(power < 0)
+		{
+			this.LiftDown(Math.abs(power));
+		}
+		else{
+			this.LiftStop();
+		}
+	}
 	
+	public void JoystickControl(double Joystick_Value)
+	{
+		if(Math.abs(Joystick_Value) > 0.0001)
+		{
+			this.liftUporDown(-Joystick_Value);
+		}
+		else{
+			this.LiftStop();
+		}
+	}
 	
 	
 	

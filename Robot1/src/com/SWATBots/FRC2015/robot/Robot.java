@@ -33,6 +33,9 @@ public class Robot extends IterativeRobot {
 	
 	Encoder liftEncoder = new Encoder(8, 9, false, Encoder.EncodingType.k4X);
 
+	Encoder DriveLeft = new Encoder(6, 7, false, Encoder.EncodingType.k4X);
+	Encoder DriveRight = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+	
 	
 	LiftControl lift = new LiftControl(liftMotor, HoldingPositionSwitch, ReleasePositionSwitch, MaxSwitch, MinSwitch);
 	
@@ -45,6 +48,8 @@ public class Robot extends IterativeRobot {
 	
 	ClawControl Claw = new ClawControl(SolenoidLeft, SolenoidRight);
 
+    CameraServer server;
+
 
     /**
      * This function is run when the robot is first started up and should be
@@ -54,6 +59,8 @@ public class Robot extends IterativeRobot {
 	
     public void robotInit() {
     	liftEncoder.reset();
+    	DriveRight.reset();
+    	DriveLeft.reset();
     }
 
     /**
@@ -67,13 +74,23 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
-    public void teleopPeriodic() {
+    public void teleopInit()
+    {
+    	DriveRight.reset();
+    	DriveLeft.reset();
+    }
+    
+    public void teleopPeriodic() {	
+    	
     	SmartDashboard.putNumber("Gyro Value", driveCorrection.getAngle());
+    	SmartDashboard.putNumber("Right Drive Encoder", DriveRight.getRaw());
+    	SmartDashboard.putNumber("Left Drive Encoder", DriveLeft.getRaw());
+
     	
     	speedControl.choosePower(DriveStick.getRawButton(1));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
 
-    	if(LiftStick.getRawButton(4))
+    	/*if(LiftStick.getRawButton(4))
     	{
     		lift.LiftUp(0.50);
     	}
@@ -83,9 +100,10 @@ public class Robot extends IterativeRobot {
     	}
     	else{
     		lift.LiftStop();
-    	}
+    	}*/
     	
-        
+    	lift.JoystickControl(LiftStick.getRawAxis(1));
+    	SmartDashboard.putNumber("Lift Motor", liftMotor.get());
     }
     
     /**
