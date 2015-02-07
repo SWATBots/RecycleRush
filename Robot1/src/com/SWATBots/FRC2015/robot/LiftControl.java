@@ -12,7 +12,7 @@ public class LiftControl implements Runnable {
 	private byte lift_Direction = 0, lastSwitch;
 	private Thread liftThread;
 
-	private Victor lift_motor;
+	private Victor lift_motor_A, lift_motor_B;
 
 	public void run()
 	{
@@ -22,7 +22,7 @@ public class LiftControl implements Runnable {
 		}
 	}
 	
-	LiftControl (Victor Motor, DigitalInput holdingSwitch, DigitalInput releaseSwitch, DigitalInput TopSwitch, DigitalInput BottomSwitch)
+	LiftControl (Victor MotorA, Victor MotorB, DigitalInput holdingSwitch, DigitalInput releaseSwitch, DigitalInput TopSwitch, DigitalInput BottomSwitch)
 	{
 		Holding_Switch = holdingSwitch;
 		Release_Switch = releaseSwitch;
@@ -30,7 +30,8 @@ public class LiftControl implements Runnable {
 		Top_Switch = TopSwitch;
 		Bottom_Switch = BottomSwitch;
 		
-		lift_motor=Motor;
+		lift_motor_A = MotorA;
+		lift_motor_B = MotorB;
 		
 		if(liftThread == null)
 		{
@@ -44,7 +45,9 @@ public class LiftControl implements Runnable {
 	{
 		if(!(this.getTopSwitch()))
 		{
-		lift_motor.set(power);
+		lift_motor_A.set(power);
+		lift_motor_B.set(power);
+
 		lift_Direction = 1;
 		}
 		else{
@@ -56,7 +59,9 @@ public class LiftControl implements Runnable {
 	{
 		if(!(this.getBottomSwitch()))
 		{
-		lift_motor.set(-power);
+		lift_motor_A.set(-power);
+		lift_motor_B.set(-power);
+
 		lift_Direction = -1;
 		}
 		else{
@@ -66,7 +71,9 @@ public class LiftControl implements Runnable {
 	
 	public void LiftStop()
 	{
-		lift_motor.set(0);
+		lift_motor_A.set(0);
+		lift_motor_B.set(0);
+
 		lift_Direction = 0;
 	}
 	
