@@ -53,10 +53,8 @@ public class Robot extends IterativeRobot {
 	
 	ClawControl Claw = new ClawControl(SolenoidLeft, SolenoidRight);
 
-    CameraServer server;
-
     int Vision_session;
-    Image Vision_frame;
+   Image Vision_frame;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -67,14 +65,6 @@ public class Robot extends IterativeRobot {
     	liftEncoder.reset();
     	DriveRight.reset();
     	DriveLeft.reset();
-    	
-    	//Vision inits
-        Vision_frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-
-        // the camera name (ex "cam0") can be found through the roborio web interface
-        Vision_session = NIVision.IMAQdxOpenCamera("cam0",
-                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-        NIVision.IMAQdxConfigureGrab(Vision_session);
     }
 
     /**
@@ -93,7 +83,25 @@ public class Robot extends IterativeRobot {
     	DriveRight.reset();
     	DriveLeft.reset();
     	
+    	//Vision inits
+    	try{
+        Vision_frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+
+        // the camera name (ex "cam0") can be found through the roborio web interface
+        Vision_session = NIVision.IMAQdxOpenCamera("cam0",
+                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+        NIVision.IMAQdxConfigureGrab(Vision_session);
+    	}
+    	catch(Exception ex)
+    	{  		
+    	}
+    	
+    	try{
         NIVision.IMAQdxStartAcquisition(Vision_session);
+    	}
+    	catch(Exception ex)
+    	{
+    	}
     }
     
     public void teleopPeriodic() {	
@@ -106,13 +114,16 @@ public class Robot extends IterativeRobot {
     	speedControl.choosePower(DriveStick.getRawButton(1));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
 
-    	
+    	try{
         NIVision.IMAQdxGrab(Vision_session, Vision_frame, 1);
         CameraServer.getInstance().setImage(Vision_frame);
-    	
+    	}
+    	catch(Exception ex)
+    	{
+    	}
         
-    	lift.JoystickControl(LiftStick.getRawAxis(1));
-    	SmartDashboard.putNumber("Lift Motor", liftMotorA.get());
+    	lift.JoystickControl(LiftStick.getRawAxis(1)*0.4);
+    	SmartDashboard.putNumber("Lift Motor", liftMotorB.get());
     	if(LiftStick.getRawButton(2))
     	{
     	Claw.open();
@@ -125,7 +136,11 @@ public class Robot extends IterativeRobot {
     
     public void disabledInit()
     {
+    	try{
         NIVision.IMAQdxStopAcquisition(Vision_session);
+    	}
+    	catch(Exception e)
+    	{}
     }
     
     /**
