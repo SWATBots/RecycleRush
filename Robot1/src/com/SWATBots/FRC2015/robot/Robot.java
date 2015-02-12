@@ -55,6 +55,10 @@ public class Robot extends IterativeRobot {
 
     int Vision_session;
    Image Vision_frame;
+   
+   double wheelPower = 0.0;
+   Victor Wheel = new Victor(4);
+   
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -132,6 +136,18 @@ public class Robot extends IterativeRobot {
     	{
     		Claw.close();
     	}
+    	
+    	
+    	if(LiftStick.getRawButton(4) && wheelPower < 1.0)
+    	{
+    		wheelPower += 0.0015;
+    	}
+    	else if(LiftStick.getRawButton(1) && wheelPower > -1.0)
+    	{
+    		wheelPower -= 0.0015;
+    	}
+    	
+    	Wheel.set(wheelPower);
     }
     
     public void disabledInit()
