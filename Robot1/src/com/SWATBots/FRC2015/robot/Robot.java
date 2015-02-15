@@ -59,6 +59,8 @@ public class Robot extends IterativeRobot {
    double wheelPower = 0.0;
    Victor Wheel = new Victor(4);
    
+
+   
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -84,6 +86,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopInit()
     {
+    	lift.HallEffectTest = false;
+    	
     	DriveRight.reset();
     	DriveLeft.reset();
     	
@@ -113,7 +117,19 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Gyro Value", driveCorrection.getAngle());
     	SmartDashboard.putNumber("Right Drive Encoder", DriveRight.getRaw());
     	SmartDashboard.putNumber("Left Drive Encoder", DriveLeft.getRaw());
+    	SmartDashboard.putNumber("Lift Motor", liftMotorB.get());
+    	
 
+		SmartDashboard.putBoolean("Hall Effect Sensor", lift.getHoldingSwitch());
+		
+    	SmartDashboard.putBoolean("Hall Effect Test", lift.HallEffectTest);
+    	
+    	if(lift.getHoldingSwitch())
+    	{
+    		lift.HallEffectTest = true;
+    	}
+    	
+    	
     	
     	speedControl.choosePower(DriveStick.getRawButton(1));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
@@ -127,7 +143,7 @@ public class Robot extends IterativeRobot {
     	}
         
     	lift.JoystickControl(LiftStick.getRawAxis(1)*0.4);
-    	SmartDashboard.putNumber("Lift Motor", liftMotorB.get());
+
     	if(LiftStick.getRawButton(2))
     	{
     	Claw.open();

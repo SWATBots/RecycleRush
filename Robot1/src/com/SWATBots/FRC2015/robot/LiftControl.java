@@ -13,13 +13,11 @@ public class LiftControl implements Runnable {
 	private Thread liftThread;
 
 	private Victor lift_motor_A, lift_motor_B;
+	   boolean HallEffectTest = false;
 
 	public void run()
 	{
-		while (true)
-		{
-			SmartDashboard.putNumber("Switch", this.getSwitches());
-		}
+
 	}
 	
 	LiftControl (Victor MotorA, Victor MotorB, DigitalInput holdingSwitch, DigitalInput releaseSwitch, DigitalInput TopSwitch, DigitalInput BottomSwitch)
