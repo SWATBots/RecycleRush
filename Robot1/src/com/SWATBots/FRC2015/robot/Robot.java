@@ -30,10 +30,8 @@ public class Robot extends IterativeRobot {
 	Victor liftMotorA = new Victor(2); 
 	Victor liftMotorB = new Victor(3); 
 
-	DigitalInput HoldingPositionSwitch = new DigitalInput(2);
-	DigitalInput ReleasePositionSwitch = new DigitalInput(1);
-	
-	DigitalInput MaxSwitch = new DigitalInput(3);
+	DigitalInput HoldingPositionSwitch = new DigitalInput(1);
+	DigitalInput MaxSwitch = new DigitalInput(2);
 	DigitalInput MinSwitch = new DigitalInput(0);
 	
 	Encoder liftEncoder = new Encoder(8, 9, false, Encoder.EncodingType.k4X);
@@ -42,7 +40,7 @@ public class Robot extends IterativeRobot {
 	Encoder DriveRight = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
 	
 	
-	LiftControl lift = new LiftControl(liftMotorA, liftMotorB, HoldingPositionSwitch, ReleasePositionSwitch, MaxSwitch, MinSwitch);
+	LiftControl lift = new LiftControl(liftMotorA, liftMotorB, MinSwitch, HoldingPositionSwitch, MaxSwitch);
 	
 	int High = 3, Mid = 2, Low = 1;
 	

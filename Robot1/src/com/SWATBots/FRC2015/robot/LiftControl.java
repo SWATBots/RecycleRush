@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.*;
 public class LiftControl implements Runnable {
 
 	private int High = 3, Mid = 2, Low = 1;
-	private DigitalInput Holding_Switch, Release_Switch, Top_Switch, Bottom_Switch;
+	private DigitalInput Holding_Switch, Top_Switch, Bottom_Switch;
 	private byte lift_Direction = 0, lastSwitch;
 	private Thread liftThread;
 
@@ -19,10 +19,9 @@ public class LiftControl implements Runnable {
 
 	}
 	
-	LiftControl (Victor MotorA, Victor MotorB, DigitalInput holdingSwitch, DigitalInput releaseSwitch, DigitalInput TopSwitch, DigitalInput BottomSwitch)
+	LiftControl (Victor MotorA, Victor MotorB, DigitalInput BottomSwitch, DigitalInput holdingSwitch, DigitalInput TopSwitch)
 	{
 		Holding_Switch = holdingSwitch;
-		Release_Switch = releaseSwitch;
 		
 		Top_Switch = TopSwitch;
 		Bottom_Switch = BottomSwitch;
@@ -84,11 +83,6 @@ public class LiftControl implements Runnable {
 		return !(Holding_Switch.get());
 	}
 	
-	public boolean getReleaseSwitch()
-	{
-		return !(Release_Switch.get());
-	}
-	
 	public boolean getTopSwitch()
 	{
 		return !(Top_Switch.get());
@@ -126,105 +120,24 @@ public class LiftControl implements Runnable {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public byte getSwitches()
-	{
+	public byte getSwitches() {
 		byte sensor = 0;
-		
-		if(getBottomSwitch())
-		{
+
+		if (getBottomSwitch()) {
 			sensor = 1;
-		}
-		else{
-			if(getReleaseSwitch())
-			{
+		} else {
+			if (getHoldingSwitch()) {
 				sensor = 2;
-			}
-			else{
-				if(getHoldingSwitch())
-				{
+			} else {
+				if (getTopSwitch()) {
 					sensor = 3;
-				}
-				else{
-					if(getTopSwitch())
-					{
-						sensor = 4;
-					}
-					else{
-						sensor = 0;
-					}
+				} else {
+					sensor = 0;
 				}
 			}
 		}
-		
+
 		return sensor;
 	}
-	
-	
-	
-	public byte findZone()
-	{
-		byte zone = -1;
-		byte Switch = getSwitches();
-		
-		if(Switch != 0)
-		{
-			lastSwitch = Switch;
-			zone = (byte) ((Switch - 1)*2);
-		}
-		else{
-			zone = (byte) ((lastSwitch - 1)*2);
-			zone += this.getDirection();
-		}
-		
-		return zone;
-	}
-	
-	public void setPosition(int Position)
-	{
-		if(Position == High)
-		{
-			this.setTop();
-		}
-		
-		if(Position == Mid)
-		{
-			this.setMiddle();
-		}
-		
-		if(Position == Low)
-		{
-			this.setBottom();
-		}
-	}
-	
-	
-	
-	public void setTop()
-	{
-		
-	}
-	
-	public void setMiddle()
-	{
-		
-	}
-	
-	public void setBottom()
-	{
-		
-	}
-	
 	
 }
