@@ -132,7 +132,7 @@ public class Robot extends IterativeRobot {
     	
     	
     	speedControl.choosePower(DriveStick.getRawButton(1));
-    	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(4)));
+    	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(2)));
 
     	try{
         NIVision.IMAQdxGrab(Vision_session, Vision_frame, 1);

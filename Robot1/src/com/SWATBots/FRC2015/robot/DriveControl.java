@@ -17,7 +17,7 @@ DriveControl (Gyro gyro)
 {     
 }
        public double calculateSpeed(double Stick){
-       return Stick*Power;
+       return -Stick*Power;
     }
       
        public void choosePower (boolean setFast)

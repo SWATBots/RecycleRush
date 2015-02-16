@@ -1,7 +1,6 @@
 package com.SWATBots.FRC2015.robot;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // A class for controlling the lift mechanism
 
