@@ -9,13 +9,22 @@ public class DriveControl {
  
        public RobotDrive DriveTrain; // robot drive system
        double Kp = 0.03;
- 
+       Gyro correctionGyro;
        private double Power = 0.0;
       
       
-DriveControl (Gyro gyro)  
-{     
+DriveControl (RobotDrive Drive, Gyro gyro)  
+{   
+	correctionGyro = gyro;
+	this.DriveTrain = Drive;
 }
+
+public void gyroDrive(double speed)
+{
+    double angle = correctionGyro.getAngle(); // get current heading
+    this.DriveTrain.drive(speed, -angle*Kp); // drive towards heading 0
+}
+
        public double calculateSpeed(double Stick){
        return -Stick*Power;
     }

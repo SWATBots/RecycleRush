@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
 	Double DrivePower;
 	
 	Gyro driveCorrection = new Gyro(0);
-	DriveControl speedControl = new DriveControl(driveCorrection);
+	DriveControl speedControl = new DriveControl(DriveTrain, driveCorrection);
 	
 	Joystick LiftStick = new Joystick(1);
 	Victor liftMotorA = new Victor(2); 
