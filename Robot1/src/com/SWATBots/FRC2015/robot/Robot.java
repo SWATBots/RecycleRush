@@ -115,10 +115,12 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Gyro Value", driveCorrection.getAngle());
     	SmartDashboard.putNumber("Right Drive Encoder", DriveRight.getRaw());
     	SmartDashboard.putNumber("Left Drive Encoder", DriveLeft.getRaw());
+    	SmartDashboard.putNumber("Lift Encoder", liftEncoder.get());
     	SmartDashboard.putNumber("Lift Motor", liftMotorB.get());
-    	
-
+    	SmartDashboard.putNumber("Turn Axis",DriveStick.getRawAxis(2));
+    	SmartDashboard.putBoolean("Top Switch", lift.getTopSwitch());
 		SmartDashboard.putBoolean("Hall Effect Sensor", lift.getHoldingSwitch());
+		SmartDashboard.putBoolean("Bottom Switch", lift.getBottomSwitch());
 		
     	SmartDashboard.putBoolean("Hall Effect Test", lift.HallEffectTest);
     	
@@ -129,7 +131,7 @@ public class Robot extends IterativeRobot {
     	
     	
     	
-    	speedControl.choosePower(DriveStick.getRawButton(1));
+    	speedControl.choosePower(DriveStick.getRawButton(8));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(2)));
 
     	try{
