@@ -130,9 +130,21 @@ public class Robot extends IterativeRobot {
     	}
     	
     	
-    	
-    	speedControl.choosePower(DriveStick.getRawButton(8));
+    	if((DriveStick.getRawButton(2) != true) && (DriveStick.getRawButton(4) != true))
+    	{
+        speedControl.choosePower(DriveStick.getRawButton(8));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(2)));
+    	}
+    	else{
+    		if(DriveStick.getRawButton(2))
+    		{
+    			speedControl.gyroDrive(0.5);
+    		}
+    		else{
+    			speedControl.gyroDrive(-0.5);
+    		}
+    	}
+    	
 
     	try{
         NIVision.IMAQdxGrab(Vision_session, Vision_frame, 1);
@@ -142,7 +154,7 @@ public class Robot extends IterativeRobot {
     	{
     	}
         
-    	lift.JoystickControl(LiftStick.getRawAxis(1)*0.4);
+    	lift.JoystickControl(LiftStick.getRawAxis(1)*0.5);
 
     	if(LiftStick.getRawButton(2))
     	{
