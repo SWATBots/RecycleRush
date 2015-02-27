@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
    double wheelPower = 0.0;
    Victor Wheel = new Victor(4);
    
-
+   Timer autoTime = new Timer();
    
     /**
      * This function is run when the robot is first started up and should be
@@ -74,8 +74,27 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during autonomous
      */
+    public void autonomousInit(){
+    	autoTime.start();
+    	autoTime.reset();
+    	Claw.open();
+    }
+    
     public void autonomousPeriodic() {
-
+    	if(autoTime.get() < 2.7)
+    	{
+    		speedControl.gyroDrive(0.5);
+    	}
+    	else{
+    		if(autoTime.get() < 3)
+    		{
+    			speedControl.gyroDrive(-0.35);
+    		}
+    		else{
+    			autoTime.stop();
+    			DriveTrain.arcadeDrive(0, 0);
+    		}
+    	}
     }
 
     
