@@ -172,9 +172,23 @@ public class Robot extends IterativeRobot {
     	catch(Exception ex)
     	{
     	}
+    	
         
-    	lift.JoystickControl(LiftStick.getRawAxis(1)*0.5);
+    	if(LiftStick.getRawButton(4) == true)
+    	{
+    		if(lift.getHoldingSwitch() == false)
+    		{
+    		lift.LiftUp(0.5);
+    		}
+    		else{
+    			lift.LiftStop();
+    		}
+    	}
+    	else{
+        	lift.JoystickControl(LiftStick.getRawAxis(1)*0.5);
+    	}
 
+    	
     	if(LiftStick.getRawButton(2))
     	{
     	Claw.open();
