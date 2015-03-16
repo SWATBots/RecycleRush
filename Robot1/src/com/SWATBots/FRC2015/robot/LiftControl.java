@@ -6,10 +6,11 @@ import edu.wpi.first.wpilibj.*;
 
 public class LiftControl implements Runnable {
 
-	private int High = 3, Mid = 2, Low = 1;
 	private DigitalInput Holding_Switch, Top_Switch, Bottom_Switch;
-	private byte lift_Direction = 0, lastSwitch;
+	private byte lift_Direction = 0;
 	private Thread liftThread;
+	private double Lift_Full_Power = 0.8, Lift_Standard_Power = 0.5;
+	private double Lift_Power_Limit = Lift_Standard_Power;
 
 	private Victor lift_motor_A, lift_motor_B;
 	   boolean HallEffectTest = false;
@@ -35,6 +36,17 @@ public class LiftControl implements Runnable {
 			liftThread.start();
 		}
 		
+	}
+	
+	public void DecideMaxPower(boolean full_power)
+	{
+		if(full_power == true)
+		{
+			Lift_Power_Limit = Lift_Full_Power;
+		}
+		else{
+			Lift_Power_Limit = Lift_Standard_Power;
+		}
 	}
 	
 	public void LiftUp(double power)
@@ -97,11 +109,11 @@ public class LiftControl implements Runnable {
 	{
 		if(power > 0)
 		{
-			this.LiftUp(power);
+			this.LiftUp(power*Lift_Power_Limit);
 		}
 		else if(power < 0)
 		{
-			this.LiftDown(Math.abs(power));
+			this.LiftDown(Math.abs(power)*Lift_Standard_Power);
 		}
 		else{
 			this.LiftStop();

@@ -21,10 +21,12 @@ public class Robot extends IterativeRobot {
 	Talon rightDrive = new Talon(1);
 	RobotDrive DriveTrain = new RobotDrive(leftDrive, rightDrive);
 	Joystick DriveStick = new Joystick(0);
+	Encoder DriveLeft = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+	Encoder DriveRight = new Encoder(6, 7, false, Encoder.EncodingType.k4X);
 	Double DrivePower;
 	
 	Gyro driveCorrection = new Gyro(0);
-	DriveControl speedControl = new DriveControl(DriveTrain, driveCorrection);
+	DriveControl speedControl = new DriveControl(DriveTrain, driveCorrection, DriveLeft, DriveRight);
 	
 	Joystick LiftStick = new Joystick(1);
 	Victor liftMotorA = new Victor(2); 
@@ -35,9 +37,6 @@ public class Robot extends IterativeRobot {
 	DigitalInput MinSwitch = new DigitalInput(0);
 	
 	Encoder liftEncoder = new Encoder(8, 9, false, Encoder.EncodingType.k4X);
-
-	Encoder DriveLeft = new Encoder(6, 7, false, Encoder.EncodingType.k4X);
-	Encoder DriveRight = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
 	
 	
 	LiftControl lift = new LiftControl(liftMotorA, liftMotorB, MinSwitch, HoldingPositionSwitch, MaxSwitch);
@@ -74,26 +73,55 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during autonomous
      */
+    
+    Boolean autoSteponecomplete = false;
+    
     public void autonomousInit(){
+    	DriveLeft.reset();
+    	DriveRight.reset();
     	autoTime.start();
     	autoTime.reset();
-    	Claw.open();
+    	Claw.close();
+    	autoSteponecomplete = false;
     }
     
     public void autonomousPeriodic() {
-    	if(autoTime.get() < 2.7)
+    	
+    	SmartDashboard.putNumber("Right Drive Encoder", DriveRight.getRaw());
+    	SmartDashboard.putNumber("Left Drive Encoder", DriveLeft.getRaw());
+    	
+    	if(DriveRight.getRaw() > 7300)
     	{
-    		speedControl.gyroDrive(0.5);
+    		autoSteponecomplete = true;
     	}
-    	else{
-    		if(autoTime.get() < 3)
+    	
+    	if(autoSteponecomplete == false)
+    	{
+    		speedControl.gyroDrive(0.35);
+    		if(autoTime.get()< 2)
     		{
-    			speedControl.gyroDrive(-0.35);
+    			lift.LiftUp(0.35);
     		}
     		else{
+    		lift.LiftStop();
+    		}
+    	}
+    	else{
+    		if(DriveRight.getRaw() > 7300)
+    		{
+    		DriveLeft.reset();
+    		DriveRight.reset();
+    		}
+
+    			if(DriveRight.getRaw() > -30)
+    			{
+    			 speedControl.gyroDrive(-0.25);
+    			}
+    			else{
     			autoTime.stop();
     			DriveTrain.arcadeDrive(0, 0);
-    		}
+    			lift.LiftStop();
+    			}
     	}
     }
 
@@ -128,9 +156,10 @@ public class Robot extends IterativeRobot {
     	{
     	}
     }
+  
     
     public void teleopPeriodic() {	
-    	
+    	   	
     	SmartDashboard.putNumber("Gyro Value", driveCorrection.getAngle());
     	SmartDashboard.putNumber("Right Drive Encoder", DriveRight.getRaw());
     	SmartDashboard.putNumber("Left Drive Encoder", DriveLeft.getRaw());
@@ -165,6 +194,10 @@ public class Robot extends IterativeRobot {
     	}
     	
 
+        	//DriveTrain.arcadeDrive(-0.75*DriveStick.getRawAxis(1), -0.75*DriveStick.getRawAxis(2), true);
+        	SmartDashboard.putNumber("Left Drive", leftDrive.get());
+        	SmartDashboard.putNumber("Right Drive", rightDrive.get());
+
     	try{
         NIVision.IMAQdxGrab(Vision_session, Vision_frame, 1);
         CameraServer.getInstance().setImage(Vision_frame);
@@ -173,6 +206,7 @@ public class Robot extends IterativeRobot {
     	{
     	}
     	
+    	lift.DecideMaxPower(LiftStick.getRawButton(6));
         
     	if(LiftStick.getRawButton(4) == true)
     	{
@@ -185,7 +219,7 @@ public class Robot extends IterativeRobot {
     		}
     	}
     	else{
-        	lift.JoystickControl(LiftStick.getRawAxis(1)*0.5);
+        	lift.JoystickControl(LiftStick.getRawAxis(1));
     	}
 
     	
