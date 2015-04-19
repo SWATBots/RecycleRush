@@ -1,9 +1,12 @@
 
 package com.SWATBots.FRC2015.robot;
+
+import java.math.*;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -16,6 +19,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Robot extends IterativeRobot {
+	
+	SendableChooser autoChooser;
+	Auto_Command autonomousCommand;
 	
 	Talon leftDrive = new Talon(0);
 	Talon rightDrive = new Talon(1);
@@ -50,8 +56,8 @@ public class Robot extends IterativeRobot {
 	
 	ClawControl Claw = new ClawControl(SolenoidLeft, SolenoidRight);
 
-    int Vision_session;
-   Image Vision_frame;
+ //   int Vision_session;
+   //Image Vision_frame;
    
    double wheelPower = 0.0;
    Victor Wheel = new Victor(4);
@@ -68,29 +74,60 @@ public class Robot extends IterativeRobot {
     	liftEncoder.reset();
     	DriveRight.reset();
     	DriveLeft.reset();
+    	DriveRight.setReverseDirection(true);
+    	
+    	autoChooser = new SendableChooser();
+    	autoChooser.addDefault("Auto One", new Auto_One());
+    	autoChooser.addObject("Auto Two", new Auto_Two());
+    	SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
+    	
+    	Claw.open();
     }
+    
 
     /**
      * This function is called periodically during autonomous
      */
     
     Boolean autoSteponecomplete = false;
-    
+    int Auto_Mode;
     public void autonomousInit(){
+    	driveCorrection.initGyro();
+
     	DriveLeft.reset();
     	DriveRight.reset();
     	autoTime.start();
     	autoTime.reset();
     	Claw.close();
     	autoSteponecomplete = false;
+    	autonomousCommand = (Auto_Command) autoChooser.getSelected();
+    	Auto_Mode = autonomousCommand.execute();
     }
     
+   
     public void autonomousPeriodic() {
     	
+    	 switch(Auto_Mode)
+    	 {
+    	 case 1:
+    	    	SmartDashboard.putBoolean("Auto One", true);
+    	    	SmartDashboard.putBoolean("Auto Two", false); 
+    	    	Auto_Mode_One();
+    		 break;
+    		 
+    	 case 2:
+    	    	SmartDashboard.putBoolean("Auto One", false);
+    	    	SmartDashboard.putBoolean("Auto Two", true);
+    		 break;
+    	 }
+    }
+
+    public void Auto_Mode_One()
+    {
     	SmartDashboard.putNumber("Right Drive Encoder", DriveRight.getRaw());
     	SmartDashboard.putNumber("Left Drive Encoder", DriveLeft.getRaw());
     	
-    	if(DriveRight.getRaw() > 7300)
+    	if(DriveLeft.getRaw() > 7300)
     	{
     		autoSteponecomplete = true;
     	}
@@ -107,13 +144,13 @@ public class Robot extends IterativeRobot {
     		}
     	}
     	else{
-    		if(DriveRight.getRaw() > 7300)
+    		if(DriveLeft.getRaw() > 7300)
     		{
     		DriveLeft.reset();
     		DriveRight.reset();
     		}
 
-    			if(DriveRight.getRaw() > -30)
+    			if(DriveLeft.getRaw() > -30)
     			{
     			 speedControl.gyroDrive(-0.25);
     			}
@@ -124,7 +161,6 @@ public class Robot extends IterativeRobot {
     			}
     	}
     }
-
     
     /**
      * This function is called periodically during operator control
@@ -136,7 +172,7 @@ public class Robot extends IterativeRobot {
     	DriveRight.reset();
     	DriveLeft.reset();
     	
-    	//Vision inits
+    /*	//Vision inits
     	try{
         Vision_frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
@@ -154,7 +190,7 @@ public class Robot extends IterativeRobot {
     	}
     	catch(Exception ex)
     	{
-    	}
+    	}*/
     }
   
     
@@ -180,8 +216,10 @@ public class Robot extends IterativeRobot {
     	
     	if((DriveStick.getRawButton(2) != true) && (DriveStick.getRawButton(4) != true))
     	{
+
         speedControl.choosePower(DriveStick.getRawButton(8));
     	DriveTrain.arcadeDrive(speedControl.calculateSpeed(DriveStick.getRawAxis(1)), speedControl.calculateSpeed(DriveStick.getRawAxis(2)));
+
     	}
     	else{
     		if(DriveStick.getRawButton(2))
@@ -198,13 +236,13 @@ public class Robot extends IterativeRobot {
         	SmartDashboard.putNumber("Left Drive", leftDrive.get());
         	SmartDashboard.putNumber("Right Drive", rightDrive.get());
 
-    	try{
+    /*	try{
         NIVision.IMAQdxGrab(Vision_session, Vision_frame, 1);
         CameraServer.getInstance().setImage(Vision_frame);
     	}
     	catch(Exception ex)
     	{
-    	}
+    	}*/
     	
     	lift.DecideMaxPower(LiftStick.getRawButton(6));
         
@@ -243,15 +281,17 @@ public class Robot extends IterativeRobot {
     	}
     	
     	Wheel.set(wheelPower);
+    	
+    	Timer.delay(0.002);
     }
     
     public void disabledInit()
     {
-    	try{
+    	/*try{
         NIVision.IMAQdxStopAcquisition(Vision_session);
     	}
     	catch(Exception e)
-    	{}
+    	{}*/
     }
     
     /**

@@ -36,6 +36,7 @@ public void encoderDrive(double speed)
 	this.DriveTrain.drive(speed, error*Kp_encoder); // drive towards heading 0
 }
 
+
        public double calculateSpeed(double Stick){
        return -Stick*Power;
     }
@@ -44,15 +45,13 @@ public void encoderDrive(double speed)
        {
        if(setFast)
        {
-             Power = 1.0;
+             Power = 0.80;
             
        }
        else{
-
              Power = 0.50;
+    	   }
        }
         
       
   }
- 
-}
