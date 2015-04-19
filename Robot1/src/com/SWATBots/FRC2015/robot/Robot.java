@@ -82,6 +82,8 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
     	
     	Claw.open();
+    	
+    	driveCorrection.initGyro();
     }
     
 
@@ -92,10 +94,9 @@ public class Robot extends IterativeRobot {
     Boolean autoSteponecomplete = false;
     int Auto_Mode;
     public void autonomousInit(){
-    	driveCorrection.initGyro();
-
     	DriveLeft.reset();
     	DriveRight.reset();
+    	driveCorrection.reset();
     	autoTime.start();
     	autoTime.reset();
     	Claw.close();
