@@ -79,6 +79,7 @@ public class Robot extends IterativeRobot {
     	autoChooser = new SendableChooser();
     	autoChooser.addDefault("Auto One", new Auto_One());
     	autoChooser.addObject("Auto Two", new Auto_Two());
+    	autoChooser.addObject("Drive Backward Auto", new Auto_Three());
     	SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
     	
     	Claw.open();
@@ -112,13 +113,22 @@ public class Robot extends IterativeRobot {
     	 {
     	 case 1:
     	    	SmartDashboard.putBoolean("Auto One", true);
-    	    	SmartDashboard.putBoolean("Auto Two", false); 
+    	    	SmartDashboard.putBoolean("Auto Two", false);
+    	    	SmartDashboard.putBoolean("Auto Three", false); 
     	    	Auto_Mode_One();
     		 break;
     		 
     	 case 2:
     	    	SmartDashboard.putBoolean("Auto One", false);
     	    	SmartDashboard.putBoolean("Auto Two", true);
+    	    	SmartDashboard.putBoolean("Auto Three", false);
+    		 break;
+    		 
+    	 case 3:
+ 	    	SmartDashboard.putBoolean("Auto One", false);
+ 	    	SmartDashboard.putBoolean("Auto Two", false);
+ 	    	SmartDashboard.putBoolean("Auto Three", true);
+ 	    	Backward_Auto();
     		 break;
     	 }
     }
@@ -160,6 +170,36 @@ public class Robot extends IterativeRobot {
     			DriveTrain.arcadeDrive(0, 0);
     			lift.LiftStop();
     			}
+    	}
+    }
+    
+    boolean Backward_Step_One;
+    
+    public void Backward_Auto()
+    {
+    	SmartDashboard.putNumber("Right Drive Encoder", DriveRight.getRaw());
+    	SmartDashboard.putNumber("Left Drive Encoder", DriveLeft.getRaw());
+    	
+    	if(DriveLeft.getRaw() < -7200)
+    	{
+    		autoSteponecomplete = true;
+    	}
+    	
+    	if(autoSteponecomplete == false)
+    	{
+    		if(autoTime.get() < 3)
+    		{
+    			lift.LiftUp(0.35);
+    		}
+    		else{
+    		lift.LiftStop();
+    		speedControl.gyroDrive(-0.35);
+    		}
+    	}
+    	else{
+    			autoTime.stop();
+    			DriveTrain.arcadeDrive(0, 0);
+    			lift.LiftStop();
     	}
     }
     
